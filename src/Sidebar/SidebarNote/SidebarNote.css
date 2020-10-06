@@ -1,0 +1,16 @@
+.sidebar-note {
+  flex: 1;
+}
+
+.sidebar-note h2 {
+  font-size: 30px;
+  padding-right: 30px;
+  text-align: right;
+}
+
+.sidebar-note button {
+  height: 40px;
+  width: calc(100% - 40px);
+  margin: 40px 0px 0px 30px;
+
+}

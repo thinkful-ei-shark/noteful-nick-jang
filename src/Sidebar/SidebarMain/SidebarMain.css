@@ -1,0 +1,14 @@
+.sidebar-main {
+  flex: 1;
+  padding: 20px;
+}
+
+.sidebar-main a {
+  text-decoration: none;
+  padding: 10px;
+}
+
+.sidebar-main button {
+  padding: 7px;
+  margin: 12px 3px;
+}

@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom';
 // import { shallow } from 'enzyme'
 // import toJson from 'enzyme-to-json'
-import App from './App'
+import Folder from './Folder'
 
-describe(`<App />`, () => {
+describe(`<Folder />`, () => {
   it('renders without errors', () => {
     const div = document.createElement('div');
     ReactDOM.render(
       <BrowserRouter>
-        <App />
+        <Folder />
       </BrowserRouter>,
       div);
     ReactDOM.unmountComponentAtNode(div);
