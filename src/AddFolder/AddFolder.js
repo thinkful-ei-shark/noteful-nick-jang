@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import config from '../config';
 import ApiContext from '../ApiContext';
 import ValidationError from '../ValidationError/ValidationError';
+import PropTypes from 'prop-types';
 import './AddFolder.css';
 
 class AddFolder extends Component {
+  static defaultProp = {
+    id: '',
+    deleteFolder: []
+  }
+
   state = {
     folder: {
       value: '',
@@ -66,8 +72,7 @@ class AddFolder extends Component {
                 name='folder'
                 onChange={(e) => this.updateFolder(e.target.value)}
               />
-              <ValidationError message={
-                this.state.folder.touched && this.validateFolder()} />
+              {this.state.folder.touched && <ValidationError message={this.validateFolder()} />}
               <button
                 type='submit'
                 form='add-folder-form'
@@ -88,6 +93,11 @@ class AddFolder extends Component {
       </ApiContext.Consumer>
     );
   }
+}
+
+AddFolder.propTypes = {
+  deleteFolder: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired
 }
 
 export default AddFolder;

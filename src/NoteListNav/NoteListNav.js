@@ -25,7 +25,9 @@ class NoteListNav extends React.Component {
 
   handleNewFolderClick = (event) => {
     event.preventDefault();
-    const id = this.state.newFolderItems.length;
+    let id = 0;
+    const length = this.state.newFolderItems.length;
+    if (length !== 0) id = this.state.newFolderItems[length - 1].id + 1;
     const newFolderItems = [
       ...this.state.newFolderItems, 
       {id,
