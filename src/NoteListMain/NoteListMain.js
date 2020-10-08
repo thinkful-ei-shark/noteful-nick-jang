@@ -6,13 +6,16 @@ import CircleButton from '../CircleButton/CircleButton'
 import ApiContext from '../ApiContext'
 import { getNotesForFolder } from '../notes-helpers'
 import './NoteListMain.css'
+import AddNote from '../AddNote/AddNote'
+import { withRouter } from 'react-router-dom'
 
-export default class NoteListMain extends React.Component {
+class NoteListMain extends React.Component {
   static defaultProps = {
     match: {
       params: {}
     }
   }
+
   static contextType = ApiContext
 
   render() {
@@ -48,3 +51,5 @@ export default class NoteListMain extends React.Component {
     )
   }
 }
+
+export default withRouter(NoteListMain);
