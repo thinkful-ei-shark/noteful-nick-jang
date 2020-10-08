@@ -75,7 +75,7 @@ class AddNote extends React.Component {
     handleOption = (folders) => {
         const folderOption = folders.map(folder => {
             return (
-                <option value={folder.id}>{folder.name}</option>
+                <option key={folder.id} value={folder.id}>{folder.name}</option>
             )
         });
         return folderOption;
