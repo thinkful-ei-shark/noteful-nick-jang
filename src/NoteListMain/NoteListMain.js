@@ -7,13 +7,15 @@ import ApiContext from '../ApiContext'
 import { getNotesForFolder } from '../notes-helpers'
 import PropTypes from 'prop-types'
 import './NoteListMain.css'
+import { withRouter } from 'react-router-dom'
 
-export default class NoteListMain extends React.Component {
+class NoteListMain extends React.Component {
   static defaultProps = {
     match: {
       params: {}
     }
   }
+
   static contextType = ApiContext
 
   render() {
@@ -55,3 +57,5 @@ NoteListMain.propTypes = {
     params: PropTypes.object
   })
 }
+
+export default withRouter(NoteListMain);
