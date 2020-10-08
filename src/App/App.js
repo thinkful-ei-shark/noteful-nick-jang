@@ -110,7 +110,7 @@ class App extends Component {
                             <FontAwesomeIcon icon="check-double" />
                         </h1>
                     </header>
-                    <ErrorBoundary item="note">
+                    <ErrorBoundary item="notes">
                         <main className="App__main">{this.renderMainRoutes()}</main>
                     </ErrorBoundary>
                 </div>

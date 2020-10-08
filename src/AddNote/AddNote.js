@@ -65,7 +65,6 @@ class AddNote extends React.Component {
         this.setState({ fetchError: '' })
         this.putNote()
             .then((resJson) => {
-                console.log(resJson);
                 callback(resJson);
                 this.props.history.push('/');
             })

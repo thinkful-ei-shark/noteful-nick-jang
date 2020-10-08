@@ -6,8 +6,8 @@ import CircleButton from '../CircleButton/CircleButton'
 import ApiContext from '../ApiContext'
 import { getNotesForFolder } from '../notes-helpers'
 import PropTypes from 'prop-types'
-import './NoteListMain.css'
 import { withRouter } from 'react-router-dom'
+import './NoteListMain.css'
 
 class NoteListMain extends React.Component {
   static defaultProps = {
@@ -15,8 +15,6 @@ class NoteListMain extends React.Component {
       params: {}
     }
   }
-
-  static contextType = ApiContext
 
   render() {
     const { folderId } = this.props.match.params
@@ -59,3 +57,5 @@ NoteListMain.propTypes = {
 }
 
 export default withRouter(NoteListMain);
+NoteListMain.contextType = ApiContext;
+
