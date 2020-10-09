@@ -65,9 +65,9 @@ class App extends Component {
             return <MainMain notes={this.getNotesOfFolder(folderId)} {...routeProps} />
           }} />)}
         <Route path='/note/:noteId' render={(routeProps) => {
-          const noteId = this.getNote(routeProps.match.params.noteId);
-          if (!noteId) return;
-          return <MainNote note={noteId} {...routeProps} />}} />
+          const note = this.getNote(routeProps.match.params.noteId);
+          if (!note) return;
+          return <MainNote note={note} {...routeProps} />}} />
       </>
     );
   }
