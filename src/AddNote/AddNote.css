@@ -33,7 +33,7 @@
     color: red;
   }
 
-  .submit-button button {
+  .submit-button {
     margin: 10px;
     height: 50px;
     width: 100%;
@@ -44,6 +44,6 @@
     margin: 10px;
   }
 
-  .name-div {
+  .name-input {
     width: 100%;
   }

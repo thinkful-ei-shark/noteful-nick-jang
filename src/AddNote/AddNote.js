@@ -22,6 +22,11 @@ class AddNote extends React.Component {
         fetchError: '',
     }
 
+    constructor() {
+        super();
+        this.nameRef = React.createRef();
+    }
+
     updateName = (name) => {
         this.setState({ name: { value: name, touched: true } });
     }
@@ -96,64 +101,77 @@ class AddNote extends React.Component {
         return folderOption;
     }
 
+    componentDidMount() {
+        if(this.state.name.touched)
+          this.nameRef.current.focus();
+      }
+
     render() {
         return (
             <ApiContext.Consumer>
                 {(context) => (
-                    <li className="add-note">
-                        <form id='add-note-form'>
-                            <p className='form-status'>{this.state.fetchError}</p>
-                            <p className='form-title'>Add Note</p>
-                            <label htmlFor='note-name'>Enter a note name:</label>
-                            <p className='hint'>* required</p>
-                            <div className="name-div">
-                            <input
-                                type='text'
-                                id='note-name'
-                                name='note-name'
-                                onChange={(e) => this.updateName(e.target.value)}
-                            />
-                            {this.state.name.touched
-                                && <ValidationError message={this.validateName()}/>}
-                            </div>
-                            <label htmlFor='note-content'>Content:</label>
-                            <div className="content-textarea">
-                            <textarea
-                                rows="4" cols="49"
-                                id='note-content'
-                                name='note-content'
-                                onChange={(e) => this.updateContent(e.target.value)}
-                            />
-                            {this.state.content.touched
-                                && <ValidationError message={this.validateContent()}/>}
-                            </div>
-                            <label htmlFor='note-folder'>Folder:</label>
-                            <select
-                                id="folder-select"
-                                name="folder-select"
-                                defaultValue=''
-                                onChange={(e) => this.updateFolder(e.target.value)}>
-                                <option value='' disabled >Select a Folder:</option>
-                                {this.createOption(context.folders)}
-                            </select>
-                            {this.state.folder.touched
-                                && <ValidationError message={this.validateFolder(context.folders)}/>}
-                            <div className="submit-button">
-                                <button
-                                    type='submit'
-                                    form='add-folder-form'
-                                    onClick={(e) => {
-                                        this.handleSubmit(e, context.addNote)
-                                    }}
-                                    disabled={
-                                        this.validateName() ||
-                                        this.validateContent() ||
-                                        this.validateFolder(context.folders)}
-                                > Submit
-                            </button>
-                            </div>
-                        </form>
-                    </li>
+                    <form id='add-note-form' className="add-note">
+                        <p className='form-status'>{this.state.fetchError}</p>
+                        <p className='form-title'>Add Note</p>
+                        <label htmlFor='note-name'>Enter a note name:</label>
+                        <p className='hint'>* required</p>
+                        <input
+                            ref={this.nameRef}
+                            type='text'
+                            id='note-name'
+                            name='note-name'
+                            className='name-input'
+                            aria-required="true"
+                            aria-describedby='name-description'
+                            aria-label="Enter a note name"
+                            aria-invalid={this.state.name.touched && !!this.validateName()}
+                            onChange={(e) => this.updateName(e.target.value)}
+                        />
+                        {this.state.name.touched
+                            && <ValidationError id='name-description' message={this.validateName()} />}
+                        <label htmlFor='note-content'>Content:</label>
+                        <textarea
+                            rows="4" cols="49"
+                            id='note-content'
+                            name='note-content'
+                            className='content-textarea'
+                            aria-required="true"
+                            aria-describedby='content-description'
+                            aria-label="Enter contents of the note:"
+                            aria-invalid={this.state.content.touched && !!this.validateContent()}
+                            onChange={(e) => this.updateContent(e.target.value)}
+                        />
+                        {this.state.content.touched
+                            && <ValidationError id='content-description' message={this.validateContent()} />}
+                        <label htmlFor='folder-select'>Folder:</label>
+                        <select
+                            id="folder-select"
+                            name="folder-select"
+                            defaultValue=''
+                            aria-required="true"
+                            aria-describedby='folder-description'
+                            aria-label="Select folder:"
+                            aria-invalid={this.state.folder.touched && !!this.validateFolder(context.folders)}
+                            onChange={(e) => this.updateFolder(e.target.value)}>
+                            <option value='' disabled >Select a Folder:</option>
+                            {this.createOption(context.folders)}
+                        </select>
+                        {this.state.folder.touched
+                            && <ValidationError id='folder-description' message={this.validateFolder(context.folders)} />}
+                        <button
+                            type='submit'
+                            form='add-note-form'
+                            className="submit-button"
+                            onClick={(e) => {
+                                this.handleSubmit(e, context.addNote)
+                            }}
+                            disabled={
+                                this.validateName() ||
+                                this.validateContent() ||
+                                this.validateFolder(context.folders)}
+                        > Submit
+                        </button>
+                    </form>
                 )}
             </ApiContext.Consumer>
         )

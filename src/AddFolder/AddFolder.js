@@ -19,14 +19,22 @@ class AddFolder extends Component {
     fetchError: ''
   }
 
+  constructor() {
+    super();
+    this.folderRef = React.createRef();
+  }
+
   updateFolder = (folder) => {
     this.setState({ folder: { value: folder, touched: true } });
   }
 
   validateFolder = () => {
     const folder = this.state.folder.value.trim();
-    if (!folder)
-      return 'Name cannot be empty.'
+    if (!folder) {
+      if(this.state.folder.touched)
+        this.folderRef.current.focus();
+      return 'Name cannot be empty.';
+    }
     return;
   }
 
@@ -56,6 +64,11 @@ class AddFolder extends Component {
       .catch(e => this.setState({ fetchError: e.message }));
   }
 
+  componentDidMount() {
+    if(this.state.folder.touched)
+      this.folderRef.current.focus();
+  }
+
   render() {
     return (
       <ApiContext.Consumer>
@@ -67,12 +80,17 @@ class AddFolder extends Component {
               <label htmlFor='folder'>Enter a folder name:</label>
               <p className='hint'>* required</p>
               <input
+                ref={this.folderRef}
                 type='text'
                 id='folder'
                 name='folder'
+                aria-required="true"
+                aria-describedby='folder-description'
+                aria-label="Enter a folder name"
+                aria-invalid={!!this.validateFolder()}
                 onChange={(e) => this.updateFolder(e.target.value)}
               />
-              {this.state.folder.touched && <ValidationError message={this.validateFolder()} />}
+              {this.state.folder.touched && <ValidationError id='folder-description' message={this.validateFolder()} />}
               <button
                 type='submit'
                 form='add-folder-form'
@@ -84,6 +102,7 @@ class AddFolder extends Component {
             </button>
               <button
                 type='reset'
+                form='add-folder-form'
                 onClick={(e) => this.props.deleteFolder(this.props.id, e)}
               > Cancel
               </button>
