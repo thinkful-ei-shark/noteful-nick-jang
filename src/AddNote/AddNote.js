@@ -41,6 +41,14 @@ class AddNote extends React.Component {
         return;
     }
 
+    validateContent = () => {
+        const content = this.state.content.value.trim();
+        if (!content)
+            return 'Content cannot be empty.'
+        return;
+    }
+
+
     putNote = () => {
         const options = {
             method: 'POST',
@@ -110,6 +118,10 @@ class AddNote extends React.Component {
                                 name='note-content'
                                 onChange={(e) => this.updateContent(e.target.value)}
                             />
+                            {this.state.content.touched
+                                && <ValidationError message={
+                                    this.validateContent()}
+                                />}
                             </div>
                             <label htmlFor='note-folder'>Folder:</label>
                             <select
@@ -126,7 +138,8 @@ class AddNote extends React.Component {
                                         this.handleSubmit(e, context.addNote)
                                     }}
                                     disabled={
-                                        this.validateName()}
+                                        this.validateName(),
+                                        this.validateContent()}
                                 > Submit
                             </button>
                             </div>
