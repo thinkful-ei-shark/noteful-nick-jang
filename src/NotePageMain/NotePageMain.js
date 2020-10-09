@@ -24,9 +24,7 @@ export default class NotePageMain extends React.Component {
     return (
       <section className='NotePageMain'>
         <Note
-          id={note.id}
-          name={note.name}
-          modified={note.modified}
+          note={note}
           onDeleteNote={this.handleDeleteNote}
         />
         <div className='NotePageMain__content'>
@@ -41,7 +39,7 @@ export default class NotePageMain extends React.Component {
 
 NotePageMain.propTypes = {
   match: PropTypes.shape({
-    params: PropTypes.object
+    params: PropTypes.object.isRequired
   })
 }
 

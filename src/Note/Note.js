@@ -15,7 +15,7 @@ export default class Note extends React.Component {
 
   handleClickDelete = e => {
     e.preventDefault()
-    const noteId = this.props.id
+    const noteId = this.props.note.id
 
     fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
       method: 'DELETE',
@@ -39,7 +39,7 @@ export default class Note extends React.Component {
   }
 
   render() {
-    const { name, id, modified } = this.props
+    const { name, id, modified } = this.props.note
     return (
       <div className='Note'>
         <h2 className='Note__title'>
@@ -71,8 +71,12 @@ export default class Note extends React.Component {
 }
 
 Note.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  modified: PropTypes.string,
+  note: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    modified: PropTypes.string,
+    folderId: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired
+  }),
   onDeleteNote: PropTypes.func
 }

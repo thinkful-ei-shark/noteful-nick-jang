@@ -41,6 +41,22 @@ class AddNote extends React.Component {
         return;
     }
 
+    validateFolder = (contextfolders) => {
+        const folder = this.state.folder.value.trim();
+        if (!folder)
+            return 'Folder cannot be empty.'
+        if (!contextfolders.find(contextfolder => contextfolder.id === folder))
+            return 'Folder must be one of the available folders.'
+        return;
+    }
+
+    validateContent = () => {
+        const content = this.state.content.value.trim();
+        if (!content)
+            return 'Content cannot be empty.'
+        return;
+    }
+
     putNote = () => {
         const options = {
             method: 'POST',
@@ -71,7 +87,7 @@ class AddNote extends React.Component {
             .catch(e => this.setState({ fetchError: e.message }));
     }
 
-    handleOption = (folders) => {
+    createOption = (folders) => {
         const folderOption = folders.map(folder => {
             return (
                 <option key={folder.id} value={folder.id}>{folder.name}</option>
@@ -98,9 +114,7 @@ class AddNote extends React.Component {
                                 onChange={(e) => this.updateName(e.target.value)}
                             />
                             {this.state.name.touched
-                                && <ValidationError message={
-                                    this.validateName()}
-                                />}
+                                && <ValidationError message={this.validateName()}/>}
                             </div>
                             <label htmlFor='note-content'>Content:</label>
                             <div className="content-textarea">
@@ -110,14 +124,20 @@ class AddNote extends React.Component {
                                 name='note-content'
                                 onChange={(e) => this.updateContent(e.target.value)}
                             />
+                            {this.state.content.touched
+                                && <ValidationError message={this.validateContent()}/>}
                             </div>
                             <label htmlFor='note-folder'>Folder:</label>
                             <select
                                 id="folder-select"
                                 name="folder-select"
+                                defaultValue=''
                                 onChange={(e) => this.updateFolder(e.target.value)}>
-                                {this.handleOption(context.folders)}
+                                <option value='' disabled >Select a Folder:</option>
+                                {this.createOption(context.folders)}
                             </select>
+                            {this.state.folder.touched
+                                && <ValidationError message={this.validateFolder(context.folders)}/>}
                             <div className="submit-button">
                                 <button
                                     type='submit'
@@ -126,7 +146,9 @@ class AddNote extends React.Component {
                                         this.handleSubmit(e, context.addNote)
                                     }}
                                     disabled={
-                                        this.validateName()}
+                                        this.validateName() ||
+                                        this.validateContent() ||
+                                        this.validateFolder(context.folders)}
                                 > Submit
                             </button>
                             </div>
