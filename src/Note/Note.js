@@ -10,8 +10,8 @@ import './Note.css'
 export default class Note extends React.Component {
   static defaultProps = {
     note: {
-      name: '',
-      id: '',
+      note_name: '',
+      id: null,
       modified: ''
     },
     onDeleteNote: () => { },
@@ -26,16 +26,16 @@ export default class Note extends React.Component {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json'
-      },
+      }
     })
       .then(res => {
         if (!res.ok)
           return res.json().then(e => Promise.reject(e))
-        return res.json()
+        return res
       })
-      .then(() => {
+      .then((resjson) => {
         this.props.onDeleteNote(noteId)
-        this.context.deleteNote(noteId)        
+        this.context.deleteNote(noteId)
       })
       .catch(error => {
         console.error({ error })
@@ -43,12 +43,12 @@ export default class Note extends React.Component {
   }
 
   render() {
-    const { name, id, modified } = this.props.note
+    const { note_name, id, modified } = this.props.note
     return (
       <div className='Note'>
         <h2 className='Note__title'>
           <Link to={`/note/${id}`}>
-            {name}
+            {note_name}
           </Link>
         </h2>
         <button
@@ -76,11 +76,11 @@ export default class Note extends React.Component {
 
 Note.propTypes = {
   note: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    note_name: PropTypes.string.isRequired,
     modified: PropTypes.string,
-    folderId: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired
+    folder_id: PropTypes.number.isRequired,
+    note_content: PropTypes.string.isRequired
   }),
   onDeleteNote: PropTypes.func
 }

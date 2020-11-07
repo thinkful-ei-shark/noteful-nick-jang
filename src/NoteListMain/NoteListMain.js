@@ -56,4 +56,3 @@ NoteListMain.propTypes = {
 
 export default withRouter(NoteListMain);
 NoteListMain.contextType = ApiContext;
-

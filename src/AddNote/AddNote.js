@@ -50,7 +50,7 @@ class AddNote extends React.Component {
         const folder = this.state.folder.value.trim();
         if (!folder)
             return 'Folder cannot be empty.'
-        if (!contextfolders.find(contextfolder => contextfolder.id === folder))
+        if (!contextfolders.find(contextfolder => String(contextfolder.id) === String(folder)))
             return 'Folder must be one of the available folders.'
         return;
     }
@@ -69,9 +69,9 @@ class AddNote extends React.Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "name": this.state.name.value,
-                "content": this.state.content.value,
-                "folderId": this.state.folder.value
+                "note_name": this.state.name.value,
+                "note_content": this.state.content.value,
+                "folder_id": this.state.folder.value,
             })
         }
         return fetch(`${config.API_ENDPOINT}/notes`, options)
@@ -95,7 +95,7 @@ class AddNote extends React.Component {
     createOption = (folders) => {
         const folderOption = folders.map(folder => {
             return (
-                <option key={folder.id} value={folder.id}>{folder.name}</option>
+                <option key={folder.id} value={folder.id}>{folder.folder_name}</option>
             )
         });
         return folderOption;

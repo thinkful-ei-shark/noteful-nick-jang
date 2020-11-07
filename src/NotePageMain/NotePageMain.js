@@ -20,7 +20,10 @@ export default class NotePageMain extends React.Component {
   render() {
     const { notes = [] } = this.context
     const { noteId } = this.props.match.params
-    const note = findNote(notes, noteId) || { content: '' }
+    const note = findNote(notes, noteId)
+    console.log('notes', notes);
+    console.log('noteid', noteId);
+    console.log('note', note);
     return (
       <section className='NotePageMain'>
         {!!note.id &&
@@ -29,7 +32,7 @@ export default class NotePageMain extends React.Component {
             onDeleteNote={this.handleDeleteNote}
           />}
         <div className='NotePageMain__content'>
-          {note.content.split(/\n \r|\n/).map((para, i) =>
+          {note.note_content.split(/\n \r|\n/).map((para, i) =>
             <p key={i}>{para}</p>
           )}
         </div>
